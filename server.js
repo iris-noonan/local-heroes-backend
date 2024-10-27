@@ -16,7 +16,7 @@ mongoose.connection.on('connected', () => {
 
 app.use(express.json());
 
-// Routes go here
+// Routes
 
 app.use('/helpers', helperRouter)
 
