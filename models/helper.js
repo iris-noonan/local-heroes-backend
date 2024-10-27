@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 
+// add testimonials schema here
+
 const helperSchema = new mongoose.Schema({
     helperName: { type: String, required: true },
     // user: {
@@ -9,9 +11,12 @@ const helperSchema = new mongoose.Schema({
     // },
     profileDesc: { type: String, required: true },
     isAvailable: Boolean,
-    // skills: x,
-    // jobsCompleted: x,
-    // testimonials: x,
+    // skills: {
+    //     type: String,
+    //     enum: []
+    // },
+    // jobsCompleted: [],
+    // testimonials: [testimonialSchema],
 }, {
     timestamps: true
 })
