@@ -26,7 +26,7 @@ router.get('/', async (req, res) => {
         const helpers = await Helper.find()
             // .populate('user')
             .sort({ createdAt: 'desc' })
-        return res.status(200).json(helpers)
+        return res.json(helpers)
     } catch (error) {
         console.log(error)
         return res.status(500).json({ error: error.message })
@@ -38,6 +38,7 @@ router.get('/:helperId', async (req, res) => {
     try {
         const { helperId } = req.params
 
+        //can remove this line and the same in other routes if/when we implement error handling util
         if (!mongoose.Types.ObjectId.isValid(helperId)) {
             return res.status(400).json({ error: 'Invalid ID' })
         }
@@ -47,7 +48,7 @@ router.get('/:helperId', async (req, res) => {
         
         if (!helper) return res.status(404).json({ error: 'Helper profile not found' })
         
-        return res.status(200).json(helper)
+        return res.json(helper)
     } catch (error) {
         console.log(error)
         return res.status(500).json({ error: error.message })
@@ -55,7 +56,33 @@ router.get('/:helperId', async (req, res) => {
 })
 
 // * Update
+router.put('/:helperId', async (req, res) => {
+    try {
+        const { helperId } = req.params
 
+        if (!mongoose.Types.ObjectId.isValid(helperId)) {
+            return res.status(400).json({ error: 'Invalid ID' })
+        }
+
+        const helper = await Helper.findById(helperId)
+        
+        if (!helper) return res.status(404).json({ error: 'Helper profile not found' })
+
+        // if (!helper.user.equals(req.user._id)) {
+        //     return res.status(403).json('You can only edit your own helper profile')
+        // }
+
+        Object.assign(helper, req.body)
+        await helper.save()
+
+        // helper._doc.user = req.user
+
+        return res.json(helper)
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ error: error.message })
+    }
+})
 
 // * Delete
 
