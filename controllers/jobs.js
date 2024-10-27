@@ -19,7 +19,7 @@ const Job = require('../models/job')
 
 // ========= Protected Routes =========  under router.use(varifyToken)
 
-// router.use(verifyToken);
+// router.use(verifyToken);  !!!!!!!Think 
 
 //!---MAIN JOB SECTION
 
@@ -123,13 +123,12 @@ router.delete('/:jobId', async (req, res) => {
 
 //!---COMMENTS SECTION
 
-//*---Comment Create 
+//*---Comment Create CHECKED AND WORKING AS FAR AS POSSIBLE GOT NO USERS ETC
 router.post('/:jobId/comments', async (req, res) => {
     try {
-    //Get the correct job
-    req.body.user = req.user._id;
-    const job = await Job.findById(req.params.commentId);
-    //Add the enw comment
+    // req.body.user = req.user._id;
+    const job = await Job.findById(req.params.jobId);
+    //Add the new comment
     job.comments.push(req.body);
     await job.save();
     //Respond with the new comment 
@@ -143,14 +142,33 @@ router.post('/:jobId/comments', async (req, res) => {
     }
 })
 
+//*---Comment Update CHECKED AND WORKING AS FAR AS POSSIBLE GOT NO USERS ETC
+router.put('/:jobId/comments/:commentId', async (req, res) => {
+    try {
+        // req.body.user = req.user._id;
+        const job = await Job.findById(req.params.jobId);
+        const comment = job.comments.id(req.params.commentId);
+        comment.text = req.body.text;
+        await job.save();
+        return res.status(200).json({ message: 'Ok' })
+    } catch(error) {
+        console.log(error)
+        return res.status(500).send('<h1>Something went wrong.</h1>')
+    }
+});
 
-//*---Comment Update
-
-
-
-//*---Comment Delete
-
-
+//*---Comment Delete CHECKED AND WORKING AS FAR AS POSSIBLE GOT NO USERS ETC
+router.delete('/:jobId/comments/:commentId', async (req, res) => {
+    try {
+        const job = await Job.findById(req.params.jobId);
+        job.comments.remove({ _id: req.params.commentId });
+        await job.save();
+        return res.status(200).json({ message: 'Deleted'})
+    } catch (error) {
+        console.log(error)
+        return res.status(500).send('<h1>Something went wrong.</h1>')
+    }
+})
 
 
 //!--- Export

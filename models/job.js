@@ -1,12 +1,11 @@
 const mongoose = require('mongoose')
 
 //!--- Comments Schema 
-const commentSchema = new mongoose.Schema(
-    {
+const commentSchema = new mongoose.Schema({
         text: {
             type: String,
             required: true
-        },
+        }
        // user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     },
     { timestamps: true }
