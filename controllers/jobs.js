@@ -21,6 +21,8 @@ const Job = require('../models/job')
 
 // router.use(verifyToken);
 
+//!---MAIN JOB SECTION
+
 //*--- Job Create  CHECKED AND WORKING AS FAR AS POSSIBLE GOT NO USERS ETC
 router.post('', async (req, res) => {
     try {
@@ -119,7 +121,36 @@ router.delete('/:jobId', async (req, res) => {
     }
 })
 
-//*--- 
+//!---COMMENTS SECTION
+
+//*---Comment Create 
+router.post('/:jobId/comments', async (req, res) => {
+    try {
+    //Get the correct job
+    req.body.user = req.user._id;
+    const job = await Job.findById(req.params.commentId);
+    //Add the enw comment
+    job.comments.push(req.body);
+    await job.save();
+    //Respond with the new comment 
+    const newComment = job.comments[job.comments.length -1];
+    newComment._doc.user = req.user;
+    return res.status(201).json(newComment);
+
+    } catch(error) {
+        console.log(error)
+        return res.status(500).send('<h1>Something went wrong.</h1>')
+    }
+})
+
+
+//*---Comment Update
+
+
+
+//*---Comment Delete
+
+
 
 
 //!--- Export
