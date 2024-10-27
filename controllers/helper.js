@@ -40,7 +40,7 @@ router.get('/:helperId', async (req, res) => {
 
         //can remove this line and the same in other routes if/when we implement error handling util
         if (!mongoose.Types.ObjectId.isValid(helperId)) {
-            return res.status(400).json({ error: 'Invalid ID' })
+            return res.status(400).json({ error: 'Invalid Helper profile ID' })
         }
 
         //Need to populate the user once that has been integrated! .populate('user')
@@ -61,7 +61,7 @@ router.put('/:helperId', async (req, res) => {
         const { helperId } = req.params
 
         if (!mongoose.Types.ObjectId.isValid(helperId)) {
-            return res.status(400).json({ error: 'Invalid ID' })
+            return res.status(400).json({ error: 'Invalid Helper profile ID' })
         }
 
         const helper = await Helper.findById(helperId)
@@ -85,6 +85,30 @@ router.put('/:helperId', async (req, res) => {
 })
 
 // * Delete
+router.delete('/:helperId', async (req, res) => {
+    try {
+        const { helperId } = req.params
 
+        if (!mongoose.Types.ObjectId.isValid(helperId)) {
+            return res.status(400).json({ error: 'Invalid Helper profile ID' })
+        }
+
+        const helper = await Helper.findById(helperId)
+        
+        if (!helper) return res.status(404).json({ error: 'Helper profile not found' })
+
+        // if (!helper.user.equals(req.user._id)) {
+        //     return res.status(403).json('You can only delete your own helper profile')
+        // }
+
+        const deletedHelper = await Helper.findByIdAndDelete(helperId)
+
+        return res.json(deletedHelper)
+
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ error: error.message })
+    }
+})
 
 module.exports = router

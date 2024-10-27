@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 // add testimonials schema here
 
 const helperSchema = new mongoose.Schema({
-    helperName: { type: String, required: true },
+    helperName: { type: String, required: true, unique: true },
     // user: {
     //     type: mongoose.SchemaTypes.ObjectId,
     //     ref: 'User',
