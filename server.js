@@ -18,6 +18,8 @@ app.use(express.json());
 
 // Routes go here
 
+app.use('/helpers', helperRouter)
+
 app.listen(3000, () => {
     console.log('The express app is ready!');
 });
