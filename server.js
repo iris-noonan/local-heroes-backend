@@ -11,6 +11,8 @@ const cors = require('cors')
 //!--- Import Routers/Controllers
 const jobsRouter = require('./controllers/jobs')
 const usersRouter = require('./controllers/users')
+const helperRouter = require('./controllers/helper')
+
 
 mongoose.connect(process.env.MONGODB_URI);
 mongoose.connection.on('connected', () => {
@@ -23,6 +25,8 @@ app.use(express.json())
 app.use(morgan(process.env.ENVIRONMENT))
 
 // Routes go here
+
+app.use('/helpers', helperRouter)
 app.use('/users', usersRouter);
 app.use('/jobs', jobsRouter)
 
