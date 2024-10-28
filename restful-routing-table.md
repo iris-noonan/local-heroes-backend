@@ -4,23 +4,18 @@
 | Dashboard          | `/`                          | GET         | Render personalized dashboard            | Yes     | No         |
 | Create User Page   | `auth/sign-up`               | GET         | Renders form to sign up                  | No      | No         |
 | Create User Path   | `auth/sign-up`               | POST        | Creates user, saves to DB, sign in       | No      | No         |
-| Become Helper Page | `auth/helper-sign-up`        | GET         | Renders form to sign up as a helper      | Yes     | No         |
-| Become Helper Route| `auth/helper-sign-up`        | POST        | Creates helper profile & saves to DB     | Yes     | No         |
 | Sign In Page       | `auth/sign-in`               | GET         | Renders form to sign in                  | No      | No         |
 | Sign In Route      | `auth/sign-in`               | POST        | Sends user data to be authenticated      | No      | No         |
 | Profile Page       | `auth/profile/:userId`       | GET         | Renders profile page                     | Yes     | Yes        |
-| Profile Update Page| `auth/profile/:userId`       | GET         | Renders profile page for updating        | Yes     | Yes        |
 | Profile Update Route| `auth/profile/:userId`      | POST        | Submit changes and save                  | Yes     | Yes        |
-| Jobs Index Page    | `jobs/`                      | GET         | Show all jobs                            | Yes     | No         |
+| Jobs Index         | `jobs/`                      | GET         | Show all jobs                            | Yes     | No         |
 | Job Show Page      | `jobs/:jobId`                | GET         | Details of a job                         | Yes     | No         |
-| Job Create Page    | `jobs/new`                   | GET         | Render form to post a job                | Yes     | No         |
 | Job Create Route   | `jobs/`                      | POST        | Submit job and post it (go live)         | Yes     | No         |
 | Job Delete Route   | `jobs/:jobId`                | DELETE      | Delete a job                             | Yes     | Yes        |
 | Job Update Page    | `jobs/:jobId/edit`           | GET         | Render populated form to edit            | Yes     | Yes        |
 | Job Update Route   | `jobs/:jobId`                | PUT         | Submit changes and save                  | Yes     | Yes        |
-| Helper Index Page  | `helpers/`                   | GET         | Show all helpers                         | Yes     | No         |
+| Helper Index       | `helpers/`                   | GET         | Show all helpers                         | Yes     | No         |
 | Helper Show Page   | `helpers/:helperId`          | GET         | Details of a helper                      | Yes     | No         |
-| Helper Create Page | `helpers/new`                | GET         | Render form to become a helper           | Yes     | No         |
 | Helper Create Route| `helpers/new`                | POST        | Submit helper application (go live)      | Yes     | No         |
 | Helper Delete Route| `helpers/:helperId`          | DELETE      | Delete a helper                          | Yes     | Yes        |
 

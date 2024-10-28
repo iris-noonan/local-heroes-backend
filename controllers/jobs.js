@@ -24,13 +24,14 @@ const Job = require('../models/job')
 //!---MAIN JOB SECTION
 
 //*--- Job Create  CHECKED AND WORKING AS FAR AS POSSIBLE GOT NO USERS ETC
-router.post('', async (req, res) => {
+router.post('', async (req, res) => {//Setting up the post route
     try {
-        // req.body.user = req.user._id
-        const job = await Job.create(req.body)
-        job._doc.user = req.user
-        return res.status(201).json(job)
-    } catch (error) {
+        // req.body.user = req.user._id //asigning the user as the current user
+        const job = await Job.create(req.body) // creating job variable linked to db opperation
+        job._doc.user = req.user // asigning the user info to req.user
+        return res.status(201).json(job) // returning the response with the new job data
+    //Error handling
+    } catch (error) { 
         console.log(error)
         return res.status(500).send('<h1>Something went wrong.</h1>')
     }
@@ -39,8 +40,8 @@ router.post('', async (req, res) => {
 //*--- Job Index   CHECKED AND WORKING AS FAR AS POSSIBLE GOT NO USERS ETC
 router.get('', async (req, res) => {
     try {
-        const jobs = await Job.find()//.populate('user').populate('skill')
-        .sort({ createdAt: 'desc'})
+        const jobs = await Job.find()//.populate('user').populate('skill') // Populating the user and skill data into the job so all is displayed.
+        .sort({ createdAt: 'desc'})  //soring the jobs by default based on most recently added.
         return res.json(jobs)
     } catch (error) {
         console.log(error)
