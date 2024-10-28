@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken')
 const Job = require('../models/job')
 
 //!--- Utilities
-const { sendError, NotFound, Forbidden } = require('../utils/errors')
+const { sendError, NotFound, Forbidden, Unauthorized } = require('../utils/errors')
 
 //!--- Middleware
 const verifyToken = require('../middleware/verify-token')
