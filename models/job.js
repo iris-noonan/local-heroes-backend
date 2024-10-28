@@ -24,11 +24,11 @@ const jobSchema = new mongoose.Schema({
     completed: Boolean,
     appreciation: Boolean,
     image: String,
-    // user: {
-    //     // type: mongoose.SchemaTypes.ObjectId,
-    //     // ref: 'User',
-    //     // required: true
-    // },
+    user: {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'User',
+        required: true
+    },
     // helper: {
     //     type: mongoose.SchemaTypes.ObjectId,
     //     ref: 'Helper',

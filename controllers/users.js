@@ -3,6 +3,8 @@ const router = express.Router()
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
+const { sendError, Unauthorized } = require('../utils/errors')
+
 // Model
 const User = require('../models/user')
 
@@ -14,15 +16,9 @@ router.post('/signup', async (req, res) => {
     const { password, confirmPassword, username, email, helper } = req.body
     // Check the passwords match
     if (password !== confirmPassword) {
-      return res.status(401).json({ error: 'Unauthorized' })
+      throw new Unauthorized('Passwords do not match')
     }
-
-    // Check if the username is already taken
-    const userInDatabase = await User.findOne({ username: req.body.username });
-    if (userInDatabase) {
-      return res.status(400).json({error:'Username already taken.'});
-    }
-
+   
     // Hash password
     req.body.hashedPassword = bcrypt.hashSync(password, SALT_LENGTH)
 
@@ -48,8 +44,7 @@ router.post('/signup', async (req, res) => {
   
     return res.status(201).json({ user: payload, token })
   } catch (error) {
-    console.log(error)
-    return res.status(400).json({ error: error.message });
+    sendError(error, res)
   }
 })
 
@@ -63,14 +58,12 @@ router.post('/signin', async (req, res) => {
     
     // Check user exists
     if (!user) {
-      console.log('Attempt failed as username was incorrect')
-      return res.status(401).json({ error: 'Unauthorized' })
+      throw new Unauthorized('Attempt failed as user was not found')
     }
 
     // Compare plain text password against the hash
     if(!bcrypt.compareSync(password, user.hashedPassword)) {
-      console.log('Attempt failed as password was not correct')
-      return res.status(401).json({ error: 'Unauthorized' })
+      throw new Unauthorized('Attempt failed as password was not correct')
     }
 
     // Generate our JWT
@@ -90,8 +83,7 @@ router.post('/signin', async (req, res) => {
     return res.json({ user: payload, token })
 
   } catch (error) {
-    console.log(error)
-    return res.status(500).json({ error: error.message })
+    sendError(error, res)
   }
 })
 
@@ -118,11 +110,14 @@ router.put('/profile/:userId', async (req, res) => {
       _id: user._id
     }
 
+    if (!profile) {
+      throw new NotFound('Profile not found')
+  }
+
     return res.json({ user: payload })
 
   } catch (error) {
-    console.log(error)
-    return res.status(500).json({ error: error.message })
+    sendError(error, res)
   }
 })
 
