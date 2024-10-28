@@ -1,18 +1,21 @@
+const mongoose = require('mongoose')
 const express = require('express')
 const router = express.Router()
 
 // Models
 const Helper = require('../models/helper')
-const { default: mongoose } = require('mongoose')
+const verifyToken = require('../middleware/verify-token')
 
 // ! Routes
+
+router.use(verifyToken)
 
 // * Create
 router.post('/', async (req, res) => {
     try {
-        // req.body.user = req.user._id
+        req.body.user = req.user._id
         const helper = await Helper.create(req.body)
-        // helper._doc.user = req.user
+        helper._doc.user = req.user
         return res.status(201).json(helper)
     } catch (error) {
         console.log(error)
@@ -24,7 +27,7 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
     try {
         const helpers = await Helper.find()
-            // .populate('user')
+            .populate('user')
             .sort({ createdAt: 'desc' })
         return res.json(helpers)
     } catch (error) {
@@ -44,7 +47,7 @@ router.get('/:helperId', async (req, res) => {
         }
 
         //Need to populate the user once that has been integrated! .populate('user')
-        const helper = await Helper.findById(helperId)
+        const helper = await Helper.findById(helperId).populate('user')
         
         if (!helper) return res.status(404).json({ error: 'Helper profile not found' })
         
@@ -68,14 +71,14 @@ router.put('/:helperId', async (req, res) => {
         
         if (!helper) return res.status(404).json({ error: 'Helper profile not found' })
 
-        // if (!helper.user.equals(req.user._id)) {
-        //     return res.status(403).json('You can only edit your own helper profile')
-        // }
+        if (!helper.user.equals(req.user._id)) {
+            return res.status(403).json('You can only edit your own helper profile')
+        }
 
         Object.assign(helper, req.body)
         await helper.save()
 
-        // helper._doc.user = req.user
+        helper._doc.user = req.user
 
         return res.json(helper)
     } catch (error) {
@@ -97,9 +100,9 @@ router.delete('/:helperId', async (req, res) => {
         
         if (!helper) return res.status(404).json({ error: 'Helper profile not found' })
 
-        // if (!helper.user.equals(req.user._id)) {
-        //     return res.status(403).json('You can only delete your own helper profile')
-        // }
+        if (!helper.user.equals(req.user._id)) {
+            return res.status(403).json('You can only delete your own helper profile')
+        }
 
         const deletedHelper = await Helper.findByIdAndDelete(helperId)
 
