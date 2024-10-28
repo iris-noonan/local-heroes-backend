@@ -27,7 +27,7 @@ router.use(verifyToken);
 //!---MAIN JOB SECTION
 
 //*--- Job Create  CHECKED AND WORKING AS FAR AS POSSIBLE GOT NO USERS ETC
-router.post('', async (req, res) => {//Setting up the post route
+router.post('', verifyToken, async (req, res) => {//Setting up the post route
     try {
         req.body.user = req.user._id //asigning the user as the current user
         const job = await Job.create(req.body) // creating job variable linked to db opperation
