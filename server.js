@@ -10,20 +10,20 @@ const cors = require('cors')
 
 //!--- Import Routers/Controllers
 const jobsRouter = require('./controllers/jobs')
+const usersRouter = require('./controllers/users')
 
-
-
-//!--- Mongoose Connection
 mongoose.connect(process.env.MONGODB_URI);
 mongoose.connection.on('connected', () => {
     console.log(`Connected to MongoDB ${mongoose.connection.name}.`);
 });
 
-//!--- Middleware
-app.use(express.json());
-
+// ! Middleware
+app.use(cors({ origin: process.env.DOMAIN })) 
+app.use(express.json())
+app.use(morgan(process.env.ENVIRONMENT))
 
 // Routes go here
+app.use('/users', usersRouter);
 app.use('/jobs', jobsRouter)
 
 
