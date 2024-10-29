@@ -15,15 +15,16 @@ const commentSchema = new mongoose.Schema({
 
 //!--- Job Schema
 const jobSchema = new mongoose.Schema({
+    tile: {type: String, required: true},
     description: {type: String, required: true },
     // skill: {
     //     type: mongoose.SchemaTypes.ObjectId,
     //     ref: 'Skill',
     //     required: true
     // },
+    image: String,
     completed: Boolean,
     appreciation: Boolean,
-    image: String,
     user: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'User',
