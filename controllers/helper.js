@@ -10,7 +10,7 @@ const { sendError, NotFound, Forbidden } = require('../utils/errors')
 
 // ! Routes
 
-// router.use(verifyToken)
+router.use(verifyToken)
 
 // * Create
 router.post('/', async (req, res) => {
