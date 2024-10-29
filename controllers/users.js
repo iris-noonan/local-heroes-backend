@@ -18,7 +18,7 @@ router.post('/signup', async (req, res) => {
     if (password !== confirmPassword) {
       throw new Unauthorized('Passwords do not match')
     }
-   
+
     // Hash password
     req.body.hashedPassword = bcrypt.hashSync(password, SALT_LENGTH)
 
