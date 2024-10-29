@@ -22,6 +22,7 @@ const jobSchema = new mongoose.Schema({
     //     ref: 'Skill',
     //     required: true
     // },
+    location: String,
     image: String,
     completed: Boolean,
     appreciation: Boolean,
