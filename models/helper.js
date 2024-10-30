@@ -1,7 +1,17 @@
 const mongoose = require('mongoose')
 
-// add testimonials schema here
+// ! Testimonials schema
+const testimonialSchema = new mongoose.Schema({
+    text: {
+        type: String,
+        required: true
+    },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+},
+{ timestamps: true }
+)
 
+// ! Helper schema
 const helperSchema = new mongoose.Schema({
     user: {
         type: mongoose.SchemaTypes.ObjectId,
@@ -16,7 +26,7 @@ const helperSchema = new mongoose.Schema({
     //     enum: []
     // },
     // jobsCompleted: [],
-    // testimonials: [testimonialSchema],
+    testimonials: [testimonialSchema],
 }, {
     timestamps: true
 })
