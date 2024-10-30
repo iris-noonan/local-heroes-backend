@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const upload = require('../middleware/image-upload.js')
 
 const { sendError, Unauthorized } = require('../utils/errors')
 
@@ -11,14 +12,17 @@ const User = require('../models/user')
 const SALT_LENGTH = 12
 
 // * Sign Up
-router.post('/signup', async (req, res) => {
+router.post('/signup', upload.single('photo'), async (req, res) => {
   try {
     const { password, confirmPassword, username, email, helper } = req.body
+
     // Check the passwords match
     if (password !== confirmPassword) {
       throw new Unauthorized('Passwords do not match')
     }
-
+   
+    // Photo
+    req.body.photo = req.file.path
     // Hash password
     req.body.hashedPassword = bcrypt.hashSync(password, SALT_LENGTH)
 
@@ -26,15 +30,17 @@ router.post('/signup', async (req, res) => {
     const user = await User.create({
       username: req.body.username,
       email: req.body.email,
-      hashedPassword: req.body.hashedPassword
+      hashedPassword: req.body.hashedPassword,
+      location: req.body.location,
+      photo: req.body.photo,
     })
     
     // Generate a JWT to send to the client
     const payload = {
       username: user.username,
       email: user.email,
-      helper: user.helper,
       location: user.location,
+      photo: user.photo,
       _id: user._id
     }
 
