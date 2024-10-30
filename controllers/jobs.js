@@ -27,7 +27,7 @@ router.use(verifyToken);
 //!---MAIN JOB SECTION
 
 //*--- Job Create  CHECKED AND WORKING AS FAR AS POSSIBLE GOT NO USERS ETC
-router.post('', verifyToken, async (req, res) => {//Setting up the post route
+router.post('/', async (req, res) => {//Setting up the post route
     try {
         req.body.user = req.user._id //asigning the user as the current user
         const job = await Job.create(req.body) // creating job variable linked to db opperation
@@ -40,7 +40,7 @@ router.post('', verifyToken, async (req, res) => {//Setting up the post route
 })
 
 //*--- Job Index   CHECKED AND WORKING AS FAR AS POSSIBLE GOT NO USERS ETC
-router.get('', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const jobs = await Job.find()//.populate('user').populate('skill') // Populating the user and skill data into the job so all is displayed.
         .sort({ createdAt: 'desc'})  //soring the jobs by default based on most recently added.
