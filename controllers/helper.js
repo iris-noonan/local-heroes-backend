@@ -41,7 +41,7 @@ router.get('/:helperId', async (req, res) => {
     try {
         const { helperId } = req.params
 
-        const helper = await Helper.findById(helperId).populate('user')
+        const helper = await Helper.findById(helperId).populate('user').populate('testimonials.user')
         
         if (!helper) throw new NotFound('Helper profile not found')
         
