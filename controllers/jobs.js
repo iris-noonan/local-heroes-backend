@@ -55,7 +55,7 @@ router.get('/:jobId', async (req, res) => {
     try {
         const { jobId } = req.params
         //!---Find
-        const job = await Job.findById(jobId)//.populate('user').populate('skill')
+        const job = await Job.findById(jobId).populate('user').populate('comments.user')
         
         //!---Handle not found
         if (!job) throw new NotFound('Job not found')
