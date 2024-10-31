@@ -22,6 +22,8 @@ router.post('/signup', upload.single('photo'), async (req, res) => {
     }
    
     // Photo
+    if(!req.file) return res.status(422).json({ photo: 'valid image file was not provided' })
+      //custom error message
     req.body.photo = req.file.path
     // Hash password
     req.body.hashedPassword = bcrypt.hashSync(password, SALT_LENGTH)
