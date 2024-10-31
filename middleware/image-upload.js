@@ -1,5 +1,4 @@
 const multer = require('multer')
-const path = require('path')
 const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary')
 
@@ -15,7 +14,7 @@ const storage = new CloudinaryStorage({
     folder: 'local-heroes', // Folder in Cloudinary where files will be stored
     allowed_formats: ['jpg', 'png', 'jpeg'], // Specify allowed file formats
     public_id: (req, file) => {
-      return Date.now() + '-' + path.parse(file.originalname).name.replace(/ /g, '_') // Specify format for filename
+      return Date.now() + '-' + file.originalname.replace(/(\.jpg|\.jpeg|\.png|\s)/gi, '_') // Specify format for filename
     }
   }
 })
