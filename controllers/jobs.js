@@ -3,6 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken')
+const upload = require('../middleware/image-upload.js')
 
 //!--- Model
 const Job = require('../models/job')
@@ -26,10 +27,16 @@ router.use(verifyToken);
 
 //!---MAIN JOB SECTION
 
+//////!POSSIBLY THEN NEW ERROR HANDLING FOR IMAGES
 //*--- Job Create  CHECKED AND WORKING AS FAR AS POSSIBLE GOT NO USERS ETC
-router.post('/', async (req, res) => {//Setting up the post route
+router.post('/', upload.single('image'), async (req, res) => {//Setting up the post route
     try {
         req.body.user = req.user._id //asigning the user as the current user
+        // Image
+        if (!req.file) return res.status(422).json({ image: 'valid image file was not provided' })
+        //custom error message could be added
+        req.body.image = req.file.path      
+
         const job = await Job.create(req.body) // creating job variable linked to db opperation
         job._doc.user = req.user // asigning the user info to req.user
         return res.status(201).json(job) // returning the response with the new job data
