@@ -18,14 +18,7 @@ const jobSchema = new mongoose.Schema({
     title: {type: String, required: true},
     description: {type: String, required: true },
     location: { type: String, required: true },
-    // skill: {
-    //     type: mongoose.SchemaTypes.ObjectId,
-    //     ref: 'Skill',
-    //     required: true
-    // },
     image: String,
-    completed: Boolean,
-    appreciation: Boolean,
     user: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'User',

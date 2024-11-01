@@ -16,19 +16,18 @@ const verifyToken = require('../middleware/verify-token')
 
 
 //!--- Public and Private Routes
-// ========== Public Routes =========== above router.use(varifyToken)
+// ========== Public Routes =========== 
 
 
 
 
-// ========= Protected Routes =========  under router.use(varifyToken)
+// ========= Protected Routes ========= 
 
 router.use(verifyToken);
 
 //!---MAIN JOB SECTION
 
-//////!POSSIBLY THEN NEW ERROR HANDLING FOR IMAGES
-//*--- Job Create  CHECKED AND WORKING AS FAR AS POSSIBLE GOT NO USERS ETC
+//*--- Job Create
 router.post('/', upload.single('image'), async (req, res) => {//Setting up the post route
     try {
         req.body.user = req.user._id //asigning the user as the current user
@@ -46,18 +45,18 @@ router.post('/', upload.single('image'), async (req, res) => {//Setting up the p
     }
 })
 
-//*--- Job Index   CHECKED AND WORKING AS FAR AS POSSIBLE GOT NO USERS ETC
+//*--- Job Index
 router.get('/', async (req, res) => {
     try {
-        const jobs = await Job.find()//.populate('user').populate('skill') // Populating the user and skill data into the job so all is displayed.
-        .sort({ createdAt: 'desc'})  //soring the jobs by default based on most recently added.
+        const jobs = await Job.find().populate('user')
+        .sort({ createdAt: 'desc'})  //sorting the jobs by default based on most recently added.
         return res.json(jobs)
     } catch (error) {
         sendError(error, res)
     }
 })
 
-//*---  Job Show   CHECKED AND WORKING AS FAR AS POSSIBLE GOT NO USERS ETC
+//*---  Job Show
 router.get('/:jobId', async (req, res) => {
     try {
         const { jobId } = req.params
@@ -73,13 +72,13 @@ router.get('/:jobId', async (req, res) => {
         sendError(error, res)
     }
 })
-//*--- Job Update   CHECKED AND WORKING AS FAR AS POSSIBLE GOT NO USERS ETC
+//*--- Job Update
 router.put('/:jobId', async (req, res) => {
     try {
         const { jobId } = req.params
         
         //!---Find
-        const job = await Job.findById(jobId).populate('user')//.populate('skill')
+        const job = await Job.findById(jobId).populate('user')
         
         //!---Handle not found
         if (!job) throw new NotFound('Job not found.')
@@ -103,7 +102,7 @@ router.put('/:jobId', async (req, res) => {
 })
 
 
-//*--- Job Delete  CHECKED AND WORKING AS FAR AS POSSIBLE GOT NO USERS ETC
+//*--- Job Delete
 router.delete('/:jobId', async (req, res) => {
     try {
         const { jobId } = req.params
@@ -131,7 +130,7 @@ router.delete('/:jobId', async (req, res) => {
 
 //!---COMMENTS SECTION
 
-//*---Comment Create CHECKED AND WORKING AS FAR AS POSSIBLE GOT NO USERS ETC
+//*---Comment Create
 router.post('/:jobId/comments', async (req, res) => {
     try {
     req.body.user = req.user._id;
@@ -149,7 +148,7 @@ router.post('/:jobId/comments', async (req, res) => {
     }
 })
 
-//*---Comment Update CHECKED AND WORKING AS FAR AS POSSIBLE GOT NO USERS ETC
+//*---Comment Update - not currently being used, for future development
 router.put('/:jobId/comments/:commentId', async (req, res) => {
     try {
         req.body.user = req.user._id;
@@ -163,7 +162,7 @@ router.put('/:jobId/comments/:commentId', async (req, res) => {
     }
 });
 
-//*---Comment Delete CHECKED AND WORKING AS FAR AS POSSIBLE GOT NO USERS ETC
+//*---Comment Delete
 router.delete('/:jobId/comments/:commentId', async (req, res) => {
     try {
         const job = await Job.findById(req.params.jobId);

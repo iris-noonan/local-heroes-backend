@@ -116,7 +116,7 @@ router.post('/:helperId/testimonials', async (req, res) => {
     }
 })
 
-// * Testimonial update
+// * Testimonial update - not currently being used, for future development
 router.put('/:helperId/testimonials/:testimonialId', async (req, res) => {
     try {
         req.body.user = req.user._id
