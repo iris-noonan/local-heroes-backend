@@ -1,5 +1,3 @@
-
-
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken')
@@ -28,19 +26,14 @@ router.use(verifyToken);
 //!---MAIN JOB SECTION
 
 //*--- Job Create
-router.post('/', upload.single('image'), async (req, res) => {//Setting up the post route
+router.post('/', async (req, res) => {//Setting up the post route
     try {
         req.body.user = req.user._id //asigning the user as the current user
-        // Image
-        if (!req.file) return res.status(422).json({ image: 'valid image file was not provided' })
-        //custom error message could be added
-        req.body.image = req.file.path      
-
         const job = await Job.create(req.body) // creating job variable linked to db opperation
         job._doc.user = req.user // asigning the user info to req.user
         return res.status(201).json(job) // returning the response with the new job data
-    //Error handling
-    } catch (error) { 
+        //Error handling
+    } catch (error) {
         sendError(error, res)
     }
 })
