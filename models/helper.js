@@ -21,11 +21,6 @@ const helperSchema = new mongoose.Schema({
     profileDesc: { type: String, required: true },
     availability: String,
     pauseMyProfile: Boolean,
-    // skills: {
-    //     type: String,
-    //     enum: []
-    // },
-    // jobsCompleted: [],
     testimonials: [testimonialSchema],
 }, {
     timestamps: true
