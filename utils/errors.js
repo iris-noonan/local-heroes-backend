@@ -7,7 +7,7 @@
 class Unauthorized extends Error {
     constructor(message) {
         super(message)
-        this.name = 'Unauthorized'
+        this.name = 'Unauthorized'//These are custom messages can we be more helpful than jus Unauthorized and if not shall we use inglish spelling?
     }
 }
 
