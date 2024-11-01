@@ -20,7 +20,7 @@ router.post('/signup', upload.single('photo'), async (req, res) => {
     if (password !== confirmPassword) {
       throw new Unauthorized('Passwords do not match')
     }
-   
+  
     // Photo
     if(!req.file) return res.status(422).json({ photo: 'valid image file was not provided' })
       //custom error message
